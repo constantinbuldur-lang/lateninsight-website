@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Constantin — Data Scientist & AI Consultant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,700&family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f0e8; --bg2: #ede7d9; --ink: #1a1612;
+      --warm: #c8441a; --warm2: #e8622a; --muted: #7a6e62;
+      --border: #d4cdc3; --card: #ffffff;
+      --serif: 'Fraunces', serif; --mono: 'Space Mono', monospace; --sans: 'Plus Jakarta Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 5rem;
+      background: rgba(245,240,232,0.92); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 0.78rem; color: var(--warm); letter-spacing: 0.06em; text-decoration: none; font-weight: 700; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--warm); }
+
+    #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 5rem; overflow: hidden; }
+    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 5rem 3rem 5rem 5rem; border-right: 1px solid var(--border); }
+    .hero-right { display: flex; flex-direction: column; justify-content: flex-end; padding: 5rem 5rem 5rem 4rem; background: var(--ink); position: relative; overflow: hidden; }
+    .hero-right::before { content: ''; position: absolute; top: -2px; left: -55px; width: 75px; height: calc(100% + 4px); background: var(--bg); transform: skewX(-3deg); z-index: 1; }
+    .hero-right-inner { position: relative; z-index: 2; }
+    .hero-deco { position: absolute; bottom: -2rem; right: -1rem; font-family: var(--serif); font-size: 22rem; font-weight: 700; color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none; z-index: 0; user-select: none; }
+
+    .hero-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--warm); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s 0.2s forwards; }
+    .hero-title { font-family: var(--serif); font-size: clamp(3rem, 5vw, 5rem); font-weight: 700; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.35s forwards; }
+    .hero-title em { font-style: italic; font-weight: 300; color: var(--warm); }
+    .hero-body { color: var(--muted); font-size: 1rem; max-width: 42ch; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+    .hero-cta { display: flex; gap: 1rem; opacity: 0; animation: fadeUp 0.8s 0.65s forwards; }
+
+    .btn { display: inline-block; padding: 0.8rem 2rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-decoration: none; border-radius: 1px; transition: all 0.2s; font-weight: 700; }
+    .btn-primary { background: var(--warm); color: #fff; border: 2px solid var(--warm); }
+    .btn-primary:hover { background: var(--warm2); border-color: var(--warm2); transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--ink); border: 2px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--warm); color: var(--warm); }
+
+    .hero-name-big { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 300; font-style: italic; color: rgba(245,240,232,0.9); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+    .hero-facts { display: flex; flex-direction: column; opacity: 0; animation: fadeUp 0.8s 0.95s forwards; }
+    .fact-row { display: flex; justify-content: space-between; align-items: baseline; padding: 1rem 0; border-bottom: 1px solid rgba(245,240,232,0.1); }
+    .fact-row:first-child { border-top: 1px solid rgba(245,240,232,0.1); }
+    .fact-label { font-family: var(--mono); font-size: 0.65rem; color: rgba(245,240,232,0.35); letter-spacing: 0.12em; text-transform: uppercase; }
+    .fact-value { font-size: 0.9rem; color: rgba(245,240,232,0.8); }
+    .fact-value.accent { color: var(--warm2); font-weight: 500; }
+
+    #about { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); }
+    .about-left { padding: 6rem 3rem 6rem 5rem; border-right: 1px solid var(--border); }
+    .about-right { padding: 6rem 5rem 6rem 3rem; background: var(--bg2); }
+
+    .section-tag { font-family: var(--mono); font-size: 0.68rem; color: var(--warm); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .section-title { font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 2rem; }
+    .section-title em { font-style: italic; font-weight: 300; color: var(--warm); }
+
+    .about-text p { color: var(--muted); margin-bottom: 1.1rem; font-size: 0.97rem; }
+    .about-text strong { color: var(--ink); font-weight: 500; }
+
+    .skills-wrap { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill { font-family: var(--mono); font-size: 0.68rem; padding: 0.4rem 0.85rem; border: 1px solid var(--border); background: var(--card); color: var(--muted); letter-spacing: 0.06em; transition: all 0.2s; }
+    .skill:hover { border-color: var(--warm); color: var(--warm); background: #fff5f2; }
+
+    .profile-card { background: var(--card); border: 1px solid var(--border); padding: 2.5rem; margin-bottom: 1.5rem; }
+    .profile-initial { width: 72px; height: 72px; background: var(--warm); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; }
+    .profile-name { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .profile-role { font-family: var(--mono); font-size: 0.7rem; color: var(--warm); letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+    .pi-row { display: flex; gap: 1rem; align-items: baseline; padding: 0.7rem 0; border-top: 1px solid var(--border); }
+    .pi-label { font-family: var(--mono); font-size: 0.62rem; color: var(--border); letter-spacing: 0.1em; text-transform: uppercase; min-width: 80px; }
+    .pi-val { font-size: 0.88rem; color: var(--muted); }
+    .pi-val.open { color: var(--warm); font-weight: 500; }
+
+    .avail-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.7rem; padding: 0.5rem 1rem; background: #fff5f2; border: 1px solid var(--warm); color: var(--warm); letter-spacing: 0.08em; }
+    .avail-dot { width: 6px; height: 6px; background: var(--warm); border-radius: 50%; animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    #contact { border-top: 1px solid var(--border); background: var(--ink); padding: 7rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; overflow: hidden; }
+    #contact::after { content: 'HELLO.'; position: absolute; right: -1rem; top: 50%; transform: translateY(-50%); font-family: var(--serif); font-size: 14rem; font-weight: 700; color: rgba(255,255,255,0.025); pointer-events: none; line-height: 1; }
+    .contact-left .section-tag { color: var(--warm2); }
+    .contact-title { font-family: var(--serif); font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 700; line-height: 1.0; color: #f5f0e8; letter-spacing: -0.02em; margin-bottom: 1.2rem; }
+    .contact-title em { font-style: italic; font-weight: 300; color: var(--warm2); }
+    .contact-sub { color: rgba(245,240,232,0.45); font-size: 0.95rem; max-width: 40ch; }
+    .contact-right { display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 1; }
+    .contact-link { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 1.5rem; background: rgba(245,240,232,0.04); border: 1px solid rgba(245,240,232,0.08); text-decoration: none; transition: all 0.2s; }
+    .contact-link:hover { background: rgba(200,68,26,0.15); border-color: var(--warm); }
+    .cl-label { font-family: var(--mono); font-size: 0.68rem; color: rgba(245,240,232,0.35); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.2rem; }
+    .cl-value { font-size: 1rem; color: rgba(245,240,232,0.85); }
+    .cl-arrow { font-size: 1.2rem; color: var(--warm2); transition: transform 0.2s; }
+    .contact-link:hover .cl-arrow { transform: translate(3px, -3px); }
+
+    footer { background: var(--ink); border-top: 1px solid rgba(245,240,232,0.07); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+    .foot-text { font-family: var(--mono); font-size: 0.68rem; color: rgba(245,240,232,0.25); letter-spacing: 0.06em; }
+    .foot-text span { color: var(--warm2); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      nav { padding: 1rem 2rem; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 5rem 2rem 4rem; border-right: none; }
+      #about { grid-template-columns: 1fr; }
+      .about-left { padding: 4rem 2rem; border-right: none; }
+      .about-right { padding: 3rem 2rem; }
+      #contact { grid-template-columns: 1fr; padding: 4rem 2rem; }
+      #contact::after { display: none; }
+      footer { padding: 1.2rem 2rem; flex-direction: column; gap: 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">C.D.</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-tag">Data Science &amp; AI Consulting</p>
+      <h1 class="hero-title">Turning data<br>into <em>decisions.</em></h1>
+      <p class="hero-body">I help organisations unlock what their data is already telling them — through analytics, AI automation, and systems built to last. No fluff, no dashboards for the sake of dashboards.</p>
+      <div class="hero-cta">
+        <a href="#about" class="btn btn-primary">About me</a>
+        <a href="#contact" class="btn btn-ghost">Let's talk</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-deco">C</div>
+      <div class="hero-right-inner">
+        <p class="hero-name-big">Constantin D.</p>
+        <div class="hero-facts">
+          <div class="fact-row"><span class="fact-label">Based in</span><span class="fact-value">Romania</span></div>
+          <div class="fact-row"><span class="fact-label">Day role</span><span class="fact-value">People Analytics @ ING Hubs</span></div>
+          <div class="fact-row"><span class="fact-label">Freelance</span><span class="fact-value accent">&#9679; Open to projects</span></div>
+          <div class="fact-row"><span class="fact-label">Stack</span><span class="fact-value">R · Python · AI Agents</span></div>
+          <div class="fact-row"><span class="fact-label">Focus</span><span class="fact-value">HR Analytics · AI Automation</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about-left">
+      <p class="section-tag reveal">// About</p>
+      <h2 class="section-title reveal">I design systems.<br><em>AI executes them.</em></h2>
+      <div class="about-text reveal">
+        <p>I'm a <strong>data scientist and people analytics specialist</strong> working at the intersection of HR strategy and AI-driven tooling. My background is deep in R-based analysis, but what drives me is system design — building the right structure so good insights flow naturally, without constant manual effort.</p>
+        <p>I think of myself as someone who <strong>defines what needs to happen and lets AI do the heavy lifting</strong>. That mindset shapes every project, from automated reporting pipelines to custom AI assistants integrated directly into existing workflows.</p>
+        <p>Currently partnering with talent acquisition and senior leadership at <strong>ING Hubs Romania</strong>, while taking on select freelance projects in AI automation and data analytics.</p>
+      </div>
+      <div class="skills-wrap reveal">
+        <span class="skill">R / tidyverse</span>
+        <span class="skill">Python</span>
+        <span class="skill">Power Query</span>
+        <span class="skill">People Analytics</span>
+        <span class="skill">MCP / AI Agents</span>
+        <span class="skill">Prompt Engineering</span>
+        <span class="skill">HR Strategy</span>
+        <span class="skill">Data Pipelines</span>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="profile-card reveal">
+        <div class="profile-initial">C</div>
+        <div class="profile-name">Constantin D.</div>
+        <div class="profile-role">// DATA SCIENTIST &amp; AI CONSULTANT</div>
+        <div class="profile-items">
+          <div class="pi-row"><span class="pi-label">Location</span><span class="pi-val">Romania</span></div>
+          <div class="pi-row"><span class="pi-label">Experience</span><span class="pi-val">5+ years in data</span></div>
+          <div class="pi-row"><span class="pi-label">Domain</span><span class="pi-val">HR &amp; People Analytics</span></div>
+          <div class="pi-row"><span class="pi-label">AI focus</span><span class="pi-val">Automation &amp; MCP agents</span></div>
+          <div class="pi-row"><span class="pi-label">Status</span><span class="pi-val open">Open to freelance</span></div>
+        </div>
+      </div>
+      <div class="avail-badge reveal">
+        <span class="avail-dot"></span>
+        Available for new projects
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-left reveal">
+      <p class="section-tag">// Contact</p>
+      <h2 class="contact-title">Got a project<br>in <em>mind?</em></h2>
+      <p class="contact-sub">Especially interested in HR data, AI automation, or replacing painful manual processes. Let's talk.</p>
+    </div>
+    <div class="contact-right">
+      <a href="mailto:your@email.com" class="contact-link reveal">
+        <div><div class="cl-label">Email</div><div class="cl-value">your@email.com</div></div>
+        <span class="cl-arrow">&#8599;</span>
+      </a>
+      <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-link reveal">
+        <div><div class="cl-label">LinkedIn</div><div class="cl-value">linkedin.com/in/yourprofile</div></div>
+        <span class="cl-arrow">&#8599;</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="foot-text">&copy; 2026 Constantin D.</span>
+    <span class="foot-text">Built with <span>intention</span> — and a little AI.</span>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 90);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
